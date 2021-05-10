@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ttyd
+  name: ttyd
+spec:
+  selector:
+    matchLabels:
+      app: ttyd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ttyd
+    spec:
+      serviceAccountName: acm-demo
+      containers:
+      - image: quay.io/aromerot/openshift-ttyd-client:latest
+        imagePullPolicy: Always
+        name: ttyd
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
