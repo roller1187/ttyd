@@ -19,7 +19,7 @@ spec:
       labels:
         app: ttyd
     spec:
-      serviceAccountName: acm-demo
+      serviceAccountName: ttyd
       containers:
       - image: quay.io/aromerot/openshift-ttyd-client:latest
         imagePullPolicy: Always

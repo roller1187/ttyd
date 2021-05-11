@@ -1,4 +1,4 @@
-namespace: acm-demo
+namespace: ttyd
 
 resources:
 - service_account.yaml
